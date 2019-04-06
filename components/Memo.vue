@@ -5,11 +5,22 @@
       left: `${posX}px`
     }"
     class="memo">
+    <drag-handler />
+    <text-box
+      :text="text"
+      @inputed="onInputed" />
   </div>
 </template>
 
 <script>
+import DragHandler from '~/components/DragHandler.vue'
+import TextBox from '~/components/TextBox.vue'
+
 export default {
+  components: {
+    DragHandler,
+    TextBox
+  },
   props: {
     posX: {
       type: Number,
@@ -18,6 +29,15 @@ export default {
     posY: {
       type: Number,
       required: true
+    },
+    text: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    onInputed(text) {
+      this.$emit('inputed', text)
     }
   }
 }

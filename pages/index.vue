@@ -6,6 +6,8 @@
         :key="i"
         :posX="memoInfo.posX"
         :posY="memoInfo.posY"
+        :text="memoInfo.text"
+        @inputed="setText($event, i)"
       />
     </div>
     <add-btn @clicked="addMemo" />
@@ -26,7 +28,8 @@ export default {
       memoInfoList: [
         {
           posX: 20,
-          posY: 20
+          posY: 20,
+          text: 'tafagawhagta'
         }
       ]
     }
@@ -39,13 +42,25 @@ export default {
         ...this.memoInfoList,
         {
           posX: lastMemo.posX + 220,
-          posY: lastMemo.posY + 20
+          posY: lastMemo.posY + 20,
+          text: ''
         }
       ]
+    },
+    setText(text, i) {
+      this.memoInfoList = this.memoInfoList.map((memoInfo, index) => {
+        if (i === index) {
+          return {
+            ...memoInfo,
+            text
+          }
+        } else {
+          return memoInfo
+        }
+      })
     }
   }
 }
-
 </script>
 
 <style>
