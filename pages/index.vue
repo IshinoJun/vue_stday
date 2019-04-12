@@ -8,6 +8,8 @@
         :posY="memoInfo.posY"
         :text="memoInfo.text"
         @inputed="setText($event, i)"
+        @movedx="moveMemox($event, i)"
+        @movedy="moveMemoy($event, i)"
       />
     </div>
     <add-btn @clicked="addMemo" />
@@ -56,6 +58,26 @@ export default {
           }
         } else {
           return memoInfo
+        }
+      })
+    },
+    moveMemox(posX, i) {
+      this.memoInfoList = this.memoInfoList.map((memoInfo, index) => {
+        if (i === index) {
+          return {
+            ...memoInfo,
+            posX: memoInfo.posX + posX
+          }
+        }
+      })
+    },
+    moveMemoy(posY, i) {
+      this.memoInfoList = this.memoInfoList.map((memoInfo, index) => {
+        if (i === index) {
+          return {
+            ...memoInfo,
+            posY: memoInfo.posY + posY
+          }
         }
       })
     }
