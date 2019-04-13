@@ -4,24 +4,29 @@
       top: `${posY}px`,
       left: `${posX}px`
     }"
-    class="memo">
+    class="memo"
+  >
     <drag-handler
       @dragStart="$emit('dragStart', $event)"
     />
+    <remove-btn @remove="$store.commit('removeMemo', index)" />
     <text-box
       :text="text"
-      @inputed="onInputed" />
+      @inputed="onInputed"
+    />
   </div>
 </template>
 
 <script>
 import DragHandler from '~/components/DragHandler.vue'
 import TextBox from '~/components/TextBox.vue'
+import RemoveBtn from '~/components/RemoveBtn.vue'
 
 export default {
   components: {
     DragHandler,
-    TextBox
+    TextBox,
+    RemoveBtn
   },
   props: {
     posX: {
@@ -35,17 +40,24 @@ export default {
     text: {
       type: String,
       required: true
+    },
+    index: {
+      type: Number,
+      required: true
     }
   },
   methods: {
     onInputed(text) {
-      this.$emit('inputed', text)
+      this.$store.commit('setText', {
+        text,
+        index: this.index
+      })
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .memo {
   position: fixed;
   width: 200px;

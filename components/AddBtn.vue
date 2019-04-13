@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .add-button {
   position: fixed;
   bottom: 20px;

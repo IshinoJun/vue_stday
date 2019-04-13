@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .drag-handler {
   position: absolute;
   top: 0;

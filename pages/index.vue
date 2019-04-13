@@ -6,16 +6,18 @@
   >
     <div>
       <memo
-        v-for="(memoInfo, i) in memoInfoList"
+        v-for="(memoInfo, i) in $store.state.memoInfoList"
         :key="i"
-        :posX="memoInfo.posX"
-        :posY="memoInfo.posY"
+        :pos-x="memoInfo.posX"
+        :pos-y="memoInfo.posY"
         :text="memoInfo.text"
-        @inputed="setText($event, i)"
+        :index="i"
         @dragStart="dragStart(i, $event)"
+        @dragEnd="dragEnd"
+        @dragging="dragging"
       />
     </div>
-    <add-btn @clicked="addMemo" />
+    <add-btn @clicked="$store.commit('addMemo')" />
   </section>
 </template>
 
@@ -30,13 +32,6 @@ export default {
   },
   data() {
     return {
-      memoInfoList: [
-        {
-          posX: 20,
-          posY: 20,
-          text: 'tafagawhagta'
-        }
-      ],
       isDragging: false,
       draggingIndex: null,
       prevX: null,
@@ -44,30 +39,6 @@ export default {
     }
   },
   methods: {
-    addMemo() {
-      const lastMemo = this.memoInfoList[this.memoInfoList.length - 1]
-
-      this.memoInfoList = [
-        ...this.memoInfoList,
-        {
-          posX: lastMemo.posX + 220,
-          posY: lastMemo.posY + 20,
-          text: ''
-        }
-      ]
-    },
-    setText(text, i) {
-      this.memoInfoList = this.memoInfoList.map((memoInfo, index) => {
-        if (i === index) {
-          return {
-            ...memoInfo,
-            text
-          }
-        } else {
-          return memoInfo
-        }
-      })
-    },
     dragStart(i, $event) {
       this.isDragging = true
       this.draggingIndex = i
@@ -76,22 +47,17 @@ export default {
     },
     dragEnd() {
       this.isDragging = false
-      this.draggingIndex = false
+      this.draggingIndex = null
     },
     dragging($event) {
       if (!this.isDragging) return
 
-      this.memoInfoList = this.memoInfoList.map((memo, index) => {
-        if (index === this.draggingIndex) {
-          return {
-            ...memo,
-            posX: memo.posX + $event.pageX - this.prevX,
-            posY: memo.posY + $event.pageY - this.prevY
-          }
-        } else {
-          return memo
-        }
+      this.$store.commit('dragMemo', {
+        index: this.draggingIndex,
+        deltaX: $event.pageX - this.prevX,
+        deltaY: $event.pageY - this.prevY
       })
+
       this.prevX = $event.pageX
       this.prevY = $event.pageY
     }
@@ -99,7 +65,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
