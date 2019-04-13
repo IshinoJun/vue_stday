@@ -6,9 +6,8 @@
     }"
     class="memo">
     <drag-handler
-      @movedx="onMovedx"
-      @movedy="onMovedy"
-      />
+      @dragStart="$emit('dragStart', $event)"
+    />
     <text-box
       :text="text"
       @inputed="onInputed" />
@@ -41,12 +40,6 @@ export default {
   methods: {
     onInputed(text) {
       this.$emit('inputed', text)
-    },
-    onMovedx(posX) {
-      this.$emit('movedx', posX)
-    },
-    onMovedy(posY) {
-      this.$emit('movedy', posY)
     }
   }
 }

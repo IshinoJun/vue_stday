@@ -1,5 +1,9 @@
 <template>
-  <section class="container">
+  <section
+    class="container"
+    @mouseup="dragEnd"
+    @mousemove="dragging"
+  >
     <div>
       <memo
         v-for="(memoInfo, i) in memoInfoList"
@@ -8,8 +12,7 @@
         :posY="memoInfo.posY"
         :text="memoInfo.text"
         @inputed="setText($event, i)"
-        @movedx="moveMemox($event, i)"
-        @movedy="moveMemoy($event, i)"
+        @dragStart="dragStart(i, $event)"
       />
     </div>
     <add-btn @clicked="addMemo" />
@@ -33,7 +36,11 @@ export default {
           posY: 20,
           text: 'tafagawhagta'
         }
-      ]
+      ],
+      isDragging: false,
+      draggingIndex: null,
+      prevX: null,
+      prevY: null
     }
   },
   methods: {
@@ -61,25 +68,32 @@ export default {
         }
       })
     },
-    moveMemox(posX, i) {
-      this.memoInfoList = this.memoInfoList.map((memoInfo, index) => {
-        if (i === index) {
-          return {
-            ...memoInfo,
-            posX: memoInfo.posX + posX
-          }
-        }
-      })
+    dragStart(i, $event) {
+      this.isDragging = true
+      this.draggingIndex = i
+      this.prevX = $event.pageX
+      this.prevY = $event.pageY
     },
-    moveMemoy(posY, i) {
-      this.memoInfoList = this.memoInfoList.map((memoInfo, index) => {
-        if (i === index) {
+    dragEnd() {
+      this.isDragging = false
+      this.draggingIndex = false
+    },
+    dragging($event) {
+      if (!this.isDragging) return
+
+      this.memoInfoList = this.memoInfoList.map((memo, index) => {
+        if (index === this.draggingIndex) {
           return {
-            ...memoInfo,
-            posY: memoInfo.posY + posY
+            ...memo,
+            posX: memo.posX + $event.pageX - this.prevX,
+            posY: memo.posY + $event.pageY - this.prevY
           }
+        } else {
+          return memo
         }
       })
+      this.prevX = $event.pageX
+      this.prevY = $event.pageY
     }
   }
 }
