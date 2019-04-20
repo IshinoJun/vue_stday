@@ -26,7 +26,7 @@ export default {
 .text-box {
   position: absolute;
   display: block;
-  bottom: 0;
+  bottom: 50px;
   top: 60px;
   left: 0;
   width: 100%;
