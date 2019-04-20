@@ -25,7 +25,7 @@ export const mutations = {
   initMemo(state, memoData) {
     state.memoInfoList = memoData
   },
-  addMemo(state) {
+  addMemo(state, index) {
     const lastMemo = state.memoInfoList[state.memoInfoList.length - 1]
 
     state.memoInfoList = [
@@ -59,6 +59,20 @@ export const mutations = {
           ...memo,
           posX: memo.posX + deltaX,
           posY: memo.posY + deltaY
+        }
+      } else {
+        return memo
+      }
+    })
+  },
+  colorChange(state, index) {
+    const backgroundColorList = ['red', 'yellow', 'blue', 'green', 'pink']
+    state.memoInfoList = state.memoInfoList.map((memo, i) => {
+      if (i === index) {
+        console.log(`${backgroundColorList[index - 1]}`)
+        return {
+          ...memo,
+          backgroundColor: `${backgroundColorList[index - 1]}`
         }
       } else {
         return memo

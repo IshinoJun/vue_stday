@@ -14,6 +14,16 @@
       :text="text"
       @inputed="onInputed"
     />
+    <color-box
+      v-for="i in backgroundColorList.length"
+      @colorClicked="colorClicked(i, $event)"
+        :key="i"
+        :index="i"
+        :style="{
+          left: `${40*i-40}px`,
+          background: `${backgroundColorList[i-1]}`
+        }"
+     />
   </div>
 </template>
 
@@ -21,12 +31,13 @@
 import DragHandler from '~/components/DragHandler.vue'
 import TextBox from '~/components/TextBox.vue'
 import RemoveBtn from '~/components/RemoveBtn.vue'
-
+import ColorBox from '~/components/ColorBox.vue'
 export default {
   components: {
     DragHandler,
     TextBox,
-    RemoveBtn
+    RemoveBtn,
+    ColorBox
   },
   props: {
     posX: {
@@ -46,12 +57,20 @@ export default {
       required: true
     }
   },
+  data: function () {
+    return {
+      backgroundColorList: ['red', 'yellow', 'blue', 'green', 'pink']
+    }
+  },
   methods: {
     onInputed(text) {
       this.$store.commit('setText', {
         text,
         index: this.index
       })
+    },
+    colorClicked(i, $event) {
+      this.$store.commit('colorChange', i)
     }
   }
 }
