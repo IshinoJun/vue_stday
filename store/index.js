@@ -3,7 +3,8 @@ export const state = () => ({
     {
       posX: 20,
       posY: 20,
-      text: 'fafewafa'
+      text: 'fafewafa',
+      color: '#ff0'
     }
   ]
 })
@@ -33,7 +34,8 @@ export const mutations = {
       {
         posX: lastMemo.posX + 220,
         posY: lastMemo.posY + 20,
-        text: ''
+        text: '',
+        color: '#ff0'
       }
     ]
   },
@@ -46,6 +48,18 @@ export const mutations = {
         return {
           ...memoInfo,
           text
+        }
+      } else {
+        return memoInfo
+      }
+    })
+  },
+  setColor(state, { color, index }) {
+    state.memoInfoList = state.memoInfoList.map((memoInfo, i) => {
+      if (i === index) {
+        return {
+          ...memoInfo,
+          color
         }
       } else {
         return memoInfo
