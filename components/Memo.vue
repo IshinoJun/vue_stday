@@ -2,7 +2,8 @@
   <div
     :style="{
       top: `${posY}px`,
-      left: `${posX}px`
+      left: `${posX}px`,
+      background: bgColor
     }"
     class="memo"
   >
@@ -14,16 +15,14 @@
       :text="text"
       @inputed="onInputed"
     />
-    <color-box
-      v-for="i in backgroundColorList.length"
-      @colorClicked="colorClicked(i, $event)"
-        :key="i"
-        :index="i"
-        :style="{
-          left: `${40*i-40}px`,
-          background: `${backgroundColorList[i-1]}`
-        }"
-     />
+    <div class="color-pallet">
+      <color-box
+        v-for="color in colorList"
+        :key="color"
+        :color="color"
+        :index="index"
+      />
+    </div>
   </div>
 </template>
 
@@ -32,6 +31,7 @@ import DragHandler from '~/components/DragHandler.vue'
 import TextBox from '~/components/TextBox.vue'
 import RemoveBtn from '~/components/RemoveBtn.vue'
 import ColorBox from '~/components/ColorBox.vue'
+
 export default {
   components: {
     DragHandler,
@@ -52,15 +52,17 @@ export default {
       type: String,
       required: true
     },
+    bgColor: {
+      type: String,
+      required: true
+    },
     index: {
       type: Number,
       required: true
     }
   },
-  data: function () {
-    return {
-      backgroundColorList: ['red', 'yellow', 'blue', 'green', 'pink']
-    }
+  computed: {
+    colorList: () => ['#f00', '#0f0', '#00f', '#ff0']
   },
   methods: {
     onInputed(text) {
@@ -68,9 +70,6 @@ export default {
         text,
         index: this.index
       })
-    },
-    colorClicked(i, $event) {
-      this.$store.commit('colorChange', i)
     }
   }
 }
@@ -81,6 +80,10 @@ export default {
   position: fixed;
   width: 200px;
   height: 300px;
-  background: #ff0;
+}
+
+.color-pallet {
+  position: absolute;
+  bottom: 0;
 }
 </style>

@@ -11,6 +11,7 @@
         :pos-x="memoInfo.posX"
         :pos-y="memoInfo.posY"
         :text="memoInfo.text"
+        :bgColor="memoInfo.color"
         :index="i"
         @dragStart="dragStart(i, $event)"
         @dragEnd="dragEnd"

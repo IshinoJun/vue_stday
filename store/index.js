@@ -3,7 +3,8 @@ export const state = () => ({
     {
       posX: 20,
       posY: 20,
-      text: 'fafewafa'
+      text: 'fafewafa',
+      color: '#ff0'
     }
   ]
 })
@@ -25,7 +26,7 @@ export const mutations = {
   initMemo(state, memoData) {
     state.memoInfoList = memoData
   },
-  addMemo(state, index) {
+  addMemo(state) {
     const lastMemo = state.memoInfoList[state.memoInfoList.length - 1]
 
     state.memoInfoList = [
@@ -33,7 +34,8 @@ export const mutations = {
       {
         posX: lastMemo.posX + 220,
         posY: lastMemo.posY + 20,
-        text: ''
+        text: '',
+        color: '#ff0'
       }
     ]
   },
@@ -52,6 +54,18 @@ export const mutations = {
       }
     })
   },
+  setColor(state, { color, index }) {
+    state.memoInfoList = state.memoInfoList.map((memoInfo, i) => {
+      if (i === index) {
+        return {
+          ...memoInfo,
+          color
+        }
+      } else {
+        return memoInfo
+      }
+    })
+  },
   dragMemo(state, { index, deltaX, deltaY }) {
     state.memoInfoList = state.memoInfoList.map((memo, i) => {
       if (i === index) {
@@ -59,20 +73,6 @@ export const mutations = {
           ...memo,
           posX: memo.posX + deltaX,
           posY: memo.posY + deltaY
-        }
-      } else {
-        return memo
-      }
-    })
-  },
-  colorChange(state, index) {
-    const backgroundColorList = ['red', 'yellow', 'blue', 'green', 'pink']
-    state.memoInfoList = state.memoInfoList.map((memo, i) => {
-      if (i === index) {
-        console.log(`${backgroundColorList[index - 1]}`)
-        return {
-          ...memo,
-          backgroundColor: `${backgroundColorList[index - 1]}`
         }
       } else {
         return memo
