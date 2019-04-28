@@ -1,11 +1,11 @@
 {
-  "name": "vue_study",
+  "name": "memo-text",
   "version": "1.0.0",
-  "description": "My transcendent Nuxt.js project",
-  "author": "IshinoJun",
+  "description": "My laudable Nuxt.js project",
+  "author": "Jun Ishino",
   "private": true,
   "scripts": {
-    "dev":"cross-env HOST=0.0.0.0 PORT=3333 nuxt",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
@@ -13,24 +13,28 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "body-parser": "^1.19.0",
     "cross-env": "^5.2.0",
-    "nuxt": "^2.4.0",
     "express": "^4.16.4",
-    "@nuxtjs/axios": "^5.3.6"
+    "nuxt": "^2.4.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
+    "@nuxt/devalue": "^1.2.3",
     "@nuxtjs/eslint-config": "^0.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.15.1",
     "eslint-config-standard": ">=12.0.0",
+    "eslint-loader": "^2.1.2",
     "eslint-plugin-import": ">=2.16.0",
     "eslint-plugin-jest": ">=22.3.0",
     "eslint-plugin-node": ">=8.0.1",
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-promise": ">=4.0.1",
     "eslint-plugin-standard": ">=4.0.0",
-    "eslint-loader": "^2.1.2",
-    "eslint-plugin-vue": "^5.2.2"
+    "eslint-plugin-vue": "^5.2.2",
+    "minimatch": "^3.0.4",
+    "nodemon": "^1.18.9",
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }
